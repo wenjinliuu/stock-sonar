@@ -17,6 +17,7 @@ export interface Job {
   kind: JobKind;
   key: string;
   attempts: number;
+  priority?: number;
 }
 
 export function enqueueStmt(db: D1Database, kind: JobKind, key: string, priority: number, now: Date): D1PreparedStatement {
@@ -40,7 +41,7 @@ export function requeueStmt(db: D1Database, kind: JobKind, key: string, priority
 export async function claimJobs(db: D1Database, limit: number, now: Date): Promise<Job[]> {
   const { results } = await db
     .prepare(
-      `SELECT kind, key, attempts FROM fetch_queue
+      `SELECT kind, key, attempts, priority FROM fetch_queue
        WHERE status = 'pending' AND next_attempt_at <= ?
        ORDER BY priority, key LIMIT ?`,
     )

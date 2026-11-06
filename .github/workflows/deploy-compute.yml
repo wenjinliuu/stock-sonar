@@ -16,6 +16,11 @@ jobs:
         with: { node-version-file: .nvmrc, cache: npm }
       - run: npm ci
       - run: npm run typecheck -w workers/compute
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Python 测试
+        working-directory: workers/compute
+        run: pip install -q -r app/requirements.txt pytest && python -m pytest -q tests
       - name: 部署（wrangler 用 Docker 构建镜像并推送到 Cloudflare 镜像仓库）
         working-directory: workers/compute
         run: npx wrangler deploy

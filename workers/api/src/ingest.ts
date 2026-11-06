@@ -8,6 +8,7 @@ import { MassiveClient, MassiveError } from './massive';
 import { PRIORITY, claimJobs, enqueueStmt, finishStmt, requeueStmt, retryStmt, type Job } from './queue';
 import { syncStaticUniverse } from './universe';
 import { fetchTickerHistory } from './history';
+import { enqueueScanStmt } from './scan';
 
 /** 美东 16:30 之后把当天日线排进队列（免费版收盘后才能取，取不到会每 15 分钟重试） */
 export const DAILY_ENQUEUE_AFTER_MIN = 16 * 60 + 30;
@@ -119,7 +120,12 @@ async function runJob(
       await finishStmt(db, job, 'empty', 0).run(); // 休市日
       return { outcome: 'empty', count: 0 };
     }
-    await db.batch([...upsertBarsStmts(db, bars), finishStmt(db, job, 'done', bars.length)]);
+    await db.batch([
+      ...upsertBarsStmts(db, bars),
+      finishStmt(db, job, 'done', bars.length),
+      // 每日 / 补漏的日线入库后排入扫描（2 年回补的历史日期不扫）
+      ...(job.priority !== PRIORITY.backfill ? [enqueueScanStmt(db, job.key)] : []),
+    ]);
     return { outcome: 'done', count: bars.length };
   }
   if (job.kind === 'splits') {

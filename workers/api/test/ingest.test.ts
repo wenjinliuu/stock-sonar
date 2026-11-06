@@ -104,6 +104,16 @@ describe('定时拉取', () => {
       { date: '2026-11-06' },
     ]);
     expect(s.q('SELECT status FROM runs ORDER BY started_at DESC LIMIT 1')).toEqual([{ status: 'ok' }]);
+    // 当天日线还没到，不排扫描；2 年回补的历史日期也不排
+    expect(s.q('SELECT date FROM scan_queue')).toEqual([]);
+
+    // 当天日线到了之后排入扫描
+    s.raw.exec(`UPDATE fetch_queue SET next_attempt_at = '2026-11-09T00:00:00Z' WHERE kind = 'grouped' AND key = '2026-11-09'`);
+    const okMassive = fakeMassive([]);
+    (okMassive as unknown as { fetchImpl: typeof fetch }).fetchImpl = (async () =>
+      Response.json({ status: 'OK', results: [{ T: 'AAPL', o: 1, h: 1, l: 1, c: 1, v: 1, t: 0 }] })) as unknown as typeof fetch;
+    await runTick(env, new Date(at.getTime() + 90_000), okMassive);
+    expect(s.q('SELECT date FROM scan_queue')).toEqual([{ date: '2026-11-09' }]);
 
     // 同一天不会重复排队
     const r2 = await runTick(env, new Date(at.getTime() + 120_000), fakeMassive([]));

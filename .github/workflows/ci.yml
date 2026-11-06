@@ -17,4 +17,9 @@ jobs:
         run: python3 scripts/update_universe.py --gen-only && git diff --exit-code workers/api/src/universe.generated.ts
       - run: npm run typecheck
       - run: npm test
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Python 信号计算测试（含 golden test）
+        working-directory: workers/compute
+        run: pip install -q -r app/requirements.txt pytest && python -m pytest -q tests
       - run: npm run build

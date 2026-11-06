@@ -34,3 +34,39 @@ body {
 .bar > i { display: block; height: 100%; background: var(--accent); }
 .row { align-items: center; }
 .btn { background: var(--btn); color: var(--text); text-decoration: none; font-weight: 600; font-size: 13px; padding: 6px 14px; border-radius: 4px; }
+/* 今日机会清单 */
+.app { padding-bottom: 64px; }
+.title { display: flex; align-items: baseline; gap: 8px; }
+.top h1 { font-size: 20px; font-weight: 700; }
+.market { display: flex; gap: 18px; padding: 0 16px 12px; font-size: 12px; }
+.market b { font-weight: 600; }
+.market .push { margin-left: auto; }
+.market .push b { color: var(--text); }
+.up { color: var(--up-text); }
+.down { color: var(--down-text); }
+.tabs { display: flex; gap: 20px; padding: 0 16px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.tabs button { border: 0; background: transparent; font: inherit; font-size: 14px; padding: 8px 0; margin-bottom: -1px; color: var(--text-2); border-bottom: 3px solid transparent; white-space: nowrap; }
+.tabs button.on { color: var(--text); font-weight: 700; border-bottom-color: var(--accent); }
+.thead { display: flex; padding: 8px 16px; font-size: 11px; color: var(--text-2); }
+.c1 { width: 92px; flex-shrink: 0; }
+.c2 { flex-grow: 1; min-width: 0; }
+.c3 { width: 80px; text-align: right; white-space: nowrap; }
+.opp { all: unset; box-sizing: border-box; width: 100%; display: flex; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--gap); cursor: pointer; }
+.tk { display: flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 600; }
+.nm { font-size: 11px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sig, .sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sig { font-size: 12px; }
+.sub { font-size: 11px; color: var(--text-2); }
+.hot { font-size: 10px; font-weight: 600; background: var(--btn); border-radius: 2px; padding: 0 3px; }
+.score { width: 64px; height: 34px; border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 8px; flex-shrink: 0; }
+.score.bull { background: var(--up); }
+.score.bear { background: var(--down); }
+.score b { font-size: 15px; line-height: 1.1; }
+.score i { font-style: normal; font-size: 10px; line-height: 1.2; }
+.why { padding: 8px 16px 12px; background: #fafafa; border-bottom: 1px solid var(--line); font-size: 12px; }
+.reason { display: flex; flex-direction: column; padding: 6px 0; border-top: 1px solid var(--line); }
+.reason em { font-style: normal; color: var(--accent); margin-left: 6px; font-size: 9px; letter-spacing: 1px; }
+.foot { padding: 12px 16px; font-size: 11px; line-height: 1.5; }
+.nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; gap: 48px; background: var(--bg); border-top: 1px solid var(--line); padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); }
+.nav button { border: 0; background: transparent; font: inherit; font-size: 12px; color: var(--text-3); }
+.nav button.on { color: var(--text); font-weight: 600; }

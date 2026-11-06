@@ -55,6 +55,60 @@ export async function apiRoutes(request: Request, env: Env, url: URL): Promise<R
     return json(results);
   }
 
+  if (path === '/api/opportunities') {
+    // 默认取最近一次完成的扫描
+    const date =
+      url.searchParams.get('date') ??
+      (await db.prepare("SELECT date FROM scan_queue WHERE status = 'done' ORDER BY date DESC LIMIT 1").first<{ date: string }>())?.date;
+    if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return json({ date: null, scan: null, items: [] });
+    const [scan, items, market] = await db.batch([
+      db.prepare('SELECT date, status, scanned, failed, spec, started_at, finished_at FROM scan_queue WHERE date = ?').bind(date),
+      db
+        .prepare(
+          `SELECT o.ticker, t.name, t.tier, t.tags, o.score, o.direction, o.rank, o.resonance, o.categories, o.reasons_json, o.detail_json
+           FROM opportunities o JOIN tickers t ON t.ticker = o.ticker
+           WHERE o.date = ? ORDER BY o.direction, o.rank`,
+        )
+        .bind(date),
+      // 顶部概况：SPY / QQQ 当日涨跌
+      db
+        .prepare(
+          `SELECT ticker, close, (SELECT b2.close FROM bars_daily b2 WHERE b2.ticker = b.ticker AND b2.date < b.date ORDER BY b2.date DESC LIMIT 1) AS prev
+           FROM bars_daily b WHERE b.ticker IN ('SPY', 'QQQ') AND b.date = ?`,
+        )
+        .bind(date),
+    ]);
+    const parse = (s: unknown) => (typeof s === 'string' ? JSON.parse(s) : s);
+    const universe = await db
+      .prepare("SELECT COUNT(*) AS n FROM tickers WHERE active = 1 AND tier IN ('core', 'extended')")
+      .first<{ n: number }>();
+    return json({
+      date,
+      scan: scan?.results[0] ?? null,
+      universe: universe?.n ?? 0,
+      market: ((market?.results ?? []) as { ticker: string; close: number; prev: number | null }[]).map((m) => ({
+        ticker: m.ticker,
+        change: m.prev ? m.close / m.prev - 1 : null,
+      })),
+      items: ((items?.results ?? []) as Record<string, unknown>[]).map((r) => ({
+        ticker: r.ticker, name: r.name, tier: r.tier, tags: parse(r.tags), score: r.score, direction: r.direction,
+        rank: r.rank, resonance: parse(r.resonance), categories: parse(r.categories), reasons: parse(r.reasons_json),
+        detail: parse(r.detail_json),
+      })),
+    });
+  }
+
+  if (path === '/api/scans') {
+    const { results } = await db
+      .prepare(
+        `SELECT q.date, q.status, q.scanned, q.failed, q.spec, q.finished_at,
+                (SELECT COUNT(*) FROM opportunities o WHERE o.date = q.date) AS opportunities
+         FROM scan_queue q ORDER BY q.date DESC LIMIT 30`,
+      )
+      .all();
+    return json(results);
+  }
+
   const m = path.match(/^\/api\/bars\/([^/]+)$/);
   if (m) {
     const ticker = decodeURIComponent(m[1] ?? '').toUpperCase();
