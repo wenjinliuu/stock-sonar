@@ -186,7 +186,7 @@ flowchart LR
 | 宏观 | FRED | 免费 | CF Worker |
 
 - 日线用 Massive 的 Grouped Daily 接口：一次请求返回全市场当天日线，每天 1 次调用覆盖整个股票池。
-- 首次回补 2 年约 500 次请求，按 5 次/分钟约 100 分钟，分批跑一次。**P0 需先验证免费版能调这个接口。**
+- 首次回补 2 年约 520 次请求，按每分钟 4 次约 2 小时，部署后自动分批跑。**P0 已实测免费版可用**（历史窗口为今天往前滚动 2 年，详见 `docs/data-pipeline.md`）。
 - 以后若需要盘中实时期权报价，再考虑长桥 OpenAPI 的 OPRA 行情卡。
 
 ## 技术指标与信号体系
@@ -284,6 +284,7 @@ flowchart LR
 - [x] 确定仓库名并创建仓库（stock-sonar）
 - [ ] 整理 AI 主题股票清单（补充标普、纳指以外的 AI 股）
 - [ ] 定义「高分共振」的推送门槛（写进信号规格）
-- [ ] 注册 Massive、Twelve Data 免费 key
+- [x] 注册 Massive 免费 key（P0 实测 Grouped Daily 可用，见 `docs/data-pipeline.md`）
+- [ ] 注册 Twelve Data 免费 key
 - [ ] 开通 CF Workers Paid 并设账单提醒
 - [ ] 确认期权日报、研报日报数据当前在 CF 里的存放位置和格式

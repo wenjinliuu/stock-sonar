@@ -1,0 +1,13 @@
+{
+  "name": "stock-sonar",
+  "private": true,
+  "type": "module",
+  "workspaces": ["apps/web", "workers/api", "workers/compute"],
+  "scripts": {
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build -w apps/web",
+    "universe:gen": "python3 scripts/update_universe.py --gen-only"
+  },
+  "engines": { "node": ">=22" }
+}

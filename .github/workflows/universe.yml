@@ -1,0 +1,35 @@
+name: Sync index constituents
+
+# 每季度从 Wikipedia 同步标普 500、纳指 100 成分股（抓取型数据源只在 Actions 里跑）。
+# 有变化就提交到 main → 触发 Deploy → 定时任务把新股票池同步进 D1，新增股票自动做单股回补。
+on:
+  schedule:
+    - cron: '17 3 1 1,4,7,10 *' # 每季度首日（UTC）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write # GITHUB_TOKEN 的推送不会触发其他 workflow，需要显式触发部署
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install pandas lxml requests
+      - run: python scripts/update_universe.py
+      - name: 有变化则提交
+        run: |
+          if git diff --quiet data/universe workers/api/src/universe.generated.ts; then
+            echo "成分股无变化"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/universe workers/api/src/universe.generated.ts
+          git commit -m "同步指数成分股（$(date -u +%F)）"
+          git push
+          gh workflow run deploy.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}

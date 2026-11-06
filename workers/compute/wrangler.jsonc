@@ -1,0 +1,24 @@
+// Python 计算容器（P1 起用于指标 / 信号 / 打分）。
+// 只通过主 Worker 的 Service Binding 调用，不开放公网地址。
+// 部署需要 Workers Paid；目前只能手动触发 .github/workflows/deploy-compute.yml。
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "stock-sonar-compute",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  "containers": [
+    {
+      "class_name": "Compute",
+      "image": "./Dockerfile",
+      "instance_type": "basic",
+      "max_instances": 1
+    }
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "COMPUTE", "class_name": "Compute" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Compute"] }]
+}

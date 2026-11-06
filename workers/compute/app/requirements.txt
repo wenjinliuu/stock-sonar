@@ -1,0 +1,3 @@
+# P1 再加 pandas-ta 等指标库
+numpy==2.3.4
+pandas==2.3.3

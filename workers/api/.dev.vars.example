@@ -1,0 +1,2 @@
+# 本地开发用（复制为 .dev.vars，勿提交）
+MASSIVE_API_KEY=your-key-here

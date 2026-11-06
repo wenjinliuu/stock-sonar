@@ -1,0 +1,21 @@
+name: Deploy compute container
+
+# Python 容器（需 Workers Paid + Docker 构建）。P1 前只手动触发。
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version-file: .nvmrc, cache: npm }
+      - run: npm ci
+      - run: npm run typecheck -w workers/compute
+      - name: 部署（wrangler 用 Docker 构建镜像并推送到 Cloudflare 镜像仓库）
+        working-directory: workers/compute
+        run: npx wrangler deploy

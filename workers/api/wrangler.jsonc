@@ -1,0 +1,38 @@
+// 主 Worker：API + 定时调度（拉日线）+ 托管前端 PWA 静态资源
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "stock-sonar",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+
+  // 前端构建产物；/api/* 先交给 Worker，其余走静态资源（SPA 回退到 index.html）
+  "assets": {
+    "directory": "../../apps/web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "stock-sonar",
+      "database_id": "a1a3f3ed-4b0f-4e05-a30e-cfcb830437b2",
+      "migrations_dir": "../../db/migrations"
+    }
+  ],
+
+  // 每分钟一次：处理拉取队列（受 Massive 免费版 5 次/分钟限制，每次最多 4 个请求）。
+  // 美东 16:30 之后自动把当天日线排进队列；空闲时只做一次 D1 读取就返回。
+  "triggers": { "crons": ["* * * * *"] },
+
+  "vars": {
+    "MASSIVE_BASE_URL": "https://api.massive.com",
+    "MAX_CALLS_PER_TICK": "4"
+  }
+  // 密钥（不进仓库）：MASSIVE_API_KEY —— 由 GitHub Actions 部署时用 wrangler secret 写入
+}
