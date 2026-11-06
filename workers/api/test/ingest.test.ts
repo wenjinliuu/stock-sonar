@@ -82,8 +82,9 @@ describe('定时拉取', () => {
     const s = new D1Shim();
     const env = envFor(s);
     await runTick(env, new Date('2026-11-09T12:00:00Z'), fakeMassive([]));
-    // 假设回补已全部完成
+    // 假设回补已全部完成（修复任务另测）
     s.raw.exec(`UPDATE fetch_queue SET status = 'done'`);
+    s.raw.exec(`INSERT INTO app_state (key, value) VALUES ('repair_seeded_at', 'x')`);
 
     // 美东周一 16:45（EST = UTC-5）
     const at = new Date('2026-11-09T21:45:00Z');
@@ -121,8 +122,58 @@ describe('定时拉取', () => {
     expect(s.q("SELECT COUNT(*) AS n FROM fetch_queue WHERE kind = 'ticker'")).toEqual([{ n: 0 }]);
 
     s.raw.exec(`UPDATE fetch_queue SET status = 'done'`);
+    s.raw.exec(`INSERT INTO app_state (key, value) VALUES ('repair_seeded_at', 'x')`);
     const r = await runTick(env, new Date('2026-11-06T11:42:00Z'), fakeMassive([]));
     expect(r.jobs).toEqual([{ kind: 'ticker', key: 'NEWAI', outcome: 'done', count: 2 }]);
     expect(s.q("SELECT history_checked_at IS NOT NULL AS ok FROM tickers WHERE ticker = 'NEWAI'")).toEqual([{ ok: 1 }]);
+  });
+});
+
+describe('回补完成后的修复', () => {
+  it('数据不满的股票排单股回补；单股任务独占一分钟的请求预算；混入的别家数据被删除并用旧代码补齐', async () => {
+    const s = new D1Shim();
+    const env = envFor(s);
+    const now = new Date('2026-11-06T11:40:00Z');
+    await runTick(env, now, fakeMassive([]));
+    // 模拟回补完成：大部分股票满 2 天；BNY 只有 1 天且那天是别家证券的数据
+    s.raw.exec(`UPDATE fetch_queue SET status = 'done'`);
+    s.raw.exec(`DELETE FROM bars_daily`);
+    s.raw.exec(`INSERT INTO bars_daily (ticker, date, open, high, low, close, volume)
+                SELECT ticker, d, 1, 1, 1, 1, 1 FROM tickers, (SELECT '2026-11-04' AS d UNION SELECT '2026-11-05')
+                WHERE active = 1 AND ticker <> 'BNY'`);
+    s.raw.exec(`INSERT INTO bars_daily (ticker, date, open, high, low, close, volume) VALUES ('BNY', '2026-11-04', 9, 9, 9, 9, 9)`);
+
+    const log: string[] = [];
+    const fetchImpl = (async (url: string) => {
+      const u = new URL(url);
+      log.push(u.pathname);
+      if (u.pathname === '/vX/reference/tickers/BNY/events')
+        return Response.json({ status: 'OK', results: { events: [
+          { type: 'ticker_change', date: '2026-11-05', ticker_change: { ticker: 'BNY' } },
+          { type: 'ticker_change', date: '2007-07-02', ticker_change: { ticker: 'BK' } },
+        ] } });
+      const m = u.pathname.match(/\/v2\/aggs\/ticker\/([^/]+)\/range\/1\/day\/([^/]+)\/([^/]+)/);
+      if (m?.[1] === 'BNY') return Response.json({ results: [
+        { t: Date.parse('2026-11-04T05:00:00Z'), o: 9, h: 9, l: 9, c: 9, v: 9 }, // 改名前：别家证券
+        { t: Date.parse('2026-11-05T05:00:00Z'), o: 100, h: 101, l: 99, c: 100, v: 5 },
+      ] });
+      if (m?.[1] === 'BK') {
+        expect(m[3]).toBe('2026-11-04'); // 只补到改名前一天
+        return Response.json({ results: [{ t: Date.parse('2026-11-04T05:00:00Z'), o: 98, h: 99, l: 97, c: 98, v: 4 }] });
+      }
+      return new Response(JSON.stringify({ status: 'NOT_FOUND' }), { status: 404 });
+    }) as unknown as typeof fetch;
+
+    const r = await runTick(env, new Date(now.getTime() + 60_000), new MassiveClient('k', 'https://api.massive.com', fetchImpl));
+    expect(s.q("SELECT key FROM fetch_queue WHERE kind = 'ticker'")).toEqual([{ key: 'BNY' }]);
+    expect(r.jobs).toEqual([{ kind: 'ticker', key: 'BNY', outcome: 'done', count: 2 }]);
+    expect(log).toHaveLength(3); // 变更查询 + BNY + BK
+    expect(s.q("SELECT date, close FROM bars_daily WHERE ticker = 'BNY' ORDER BY date")).toEqual([
+      { date: '2026-11-04', close: 98 }, // 来自 BK
+      { date: '2026-11-05', close: 100 },
+    ]);
+    // 只做一次
+    await runTick(env, new Date(now.getTime() + 120_000), fakeMassive([]));
+    expect(s.q("SELECT COUNT(*) AS n FROM fetch_queue WHERE kind = 'ticker'")).toEqual([{ n: 1 }]);
   });
 });

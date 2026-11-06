@@ -7,10 +7,12 @@ import { upsertBarsStmts } from './bars';
 import { MassiveClient, MassiveError } from './massive';
 import { PRIORITY, claimJobs, enqueueStmt, finishStmt, requeueStmt, retryStmt, type Job } from './queue';
 import { syncStaticUniverse } from './universe';
+import { fetchTickerHistory } from './history';
 
 /** 美东 16:30 之后把当天日线排进队列（免费版收盘后才能取，取不到会每 15 分钟重试） */
 export const DAILY_ENQUEUE_AFTER_MIN = 16 * 60 + 30;
 const MAX_ATTEMPTS = 8;
+const JOB_COST: Record<Job['kind'], number> = { grouped: 1, splits: 1, ticker: 4 };
 
 /** 免费版历史窗口是「今天往前滚动 2 年」，留 1 天余量 */
 export function historyStart(today: string): string {
@@ -74,6 +76,30 @@ function enqueueNewTickersStmt(db: D1Database, now: Date): D1PreparedStatement {
     .bind(PRIORITY.newTicker, nowIso(now), PRIORITY.backfill);
 }
 
+async function seedRepair(db: D1Database, now: Date): Promise<boolean> {
+  if (await getState(db, 'repair_seeded_at')) return false;
+  const pending = await db
+    .prepare("SELECT 1 FROM fetch_queue WHERE kind = 'grouped' AND status = 'pending' AND priority = ? LIMIT 1")
+    .bind(PRIORITY.backfill)
+    .first();
+  if (pending) return false;
+  await db.batch([
+    db
+      .prepare(
+        `INSERT INTO fetch_queue (kind, key, priority, next_attempt_at)
+         SELECT 'ticker', t.ticker, ?, ? FROM tickers t
+         WHERE t.active = 1
+           AND (SELECT COUNT(*) FROM bars_daily b WHERE b.ticker = t.ticker)
+             < (SELECT COUNT(DISTINCT date) FROM bars_daily)
+         ON CONFLICT (kind, key) DO UPDATE SET status = 'pending', attempts = 0,
+           priority = excluded.priority, next_attempt_at = excluded.next_attempt_at`,
+      )
+      .bind(PRIORITY.splitRefetch, nowIso(now)),
+    setStateStmt(db, 'repair_seeded_at', nowIso(now)),
+  ]);
+  return true;
+}
+
 async function activeTickers(db: D1Database): Promise<Set<string>> {
   const { results } = await db.prepare('SELECT ticker FROM tickers WHERE active = 1').all<{ ticker: string }>();
   return new Set(results.map((r) => r.ticker));
@@ -105,14 +131,16 @@ async function runJob(
     ]);
     return { outcome: 'done', count: hits.length };
   }
-  // ticker：单股 2 年整段（复权）重拉
-  const bars = await client.range(job.key, historyStart(today), today);
+  // ticker：单股 2 年整段（复权）重拉，认得代码变更（见 history.ts）
+  const h = await fetchTickerHistory(client, job.key, historyStart(today), today);
   await db.batch([
-    ...upsertBarsStmts(db, bars),
+    // 先删掉当前代码生效前的数据（可能是同代码的别家证券），再写入（含旧代码补的历史）
+    db.prepare('DELETE FROM bars_daily WHERE ticker = ? AND date < ?').bind(job.key, h.validFrom),
+    ...upsertBarsStmts(db, h.bars),
     db.prepare('UPDATE tickers SET history_checked_at = ? WHERE ticker = ?').bind(nowIso(now), job.key),
-    finishStmt(db, job, bars.length ? 'done' : 'empty', bars.length),
+    finishStmt(db, job, h.bars.length ? 'done' : 'empty', h.bars.length, h.oldSymbols.length ? `旧代码：${h.oldSymbols.join(',')}` : null),
   ]);
-  return { outcome: bars.length ? 'done' : 'empty', count: bars.length };
+  return { outcome: h.bars.length ? 'done' : 'empty', count: h.bars.length };
 }
 
 export async function runTick(
@@ -127,6 +155,7 @@ export async function runTick(
   result.backfillSeeded = await seedBackfill(db, now);
   result.dailyEnqueued = await enqueueDaily(db, now);
   await enqueueNewTickersStmt(db, now).run();
+  await seedRepair(db, now);
 
   const apiKey = env.MASSIVE_API_KEY;
   if (!apiKey && !client) {
@@ -142,8 +171,11 @@ export async function runTick(
   const startedAt = nowIso(now);
   let stop = false;
 
+  const budget = Number(env.MAX_CALLS_PER_TICK) || 4;
   for (const job of jobs) {
     if (stop) break;
+    // 单股任务最多 4 个请求（变更查询 + 当前代码 + 2 个旧代码），放不下就留到下一分钟
+    if (massive.calls + JOB_COST[job.kind] > budget && massive.calls > 0) break;
     try {
       const r = await runJob(db, massive, job, now, getActive);
       result.jobs.push({ kind: job.kind, key: job.key, ...r });

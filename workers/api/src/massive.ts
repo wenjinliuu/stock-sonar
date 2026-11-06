@@ -16,6 +16,11 @@ export interface Bar {
   trades: number | null;
 }
 
+export interface TickerChange {
+  date: string;
+  ticker: string;
+}
+
 export interface Split {
   ticker: string;
   execution_date: string;
@@ -144,6 +149,25 @@ export class MassiveClient {
       `/v2/aggs/ticker/${encodeURIComponent(ticker)}/range/1/day/${from}/${to}?adjusted=true&sort=asc&limit=50000`,
     );
     return parseRange(ticker, body);
+  }
+
+  /**
+   * 代码变更历史（新→旧）。例：BNY → [{2026-05-21, BNY}, {2007-07-02, BK}]。
+   * 查不到（404 NOT_FOUND）时返回空数组。
+   */
+  async tickerChanges(ticker: string): Promise<TickerChange[]> {
+    try {
+      const body = await this.get<{ results?: { events?: { type: string; date: string; ticker_change?: { ticker: string } }[] } }>(
+        `/vX/reference/tickers/${encodeURIComponent(ticker)}/events?types=ticker_change`,
+      );
+      return (body.results?.events ?? [])
+        .filter((e) => e.type === 'ticker_change' && e.ticker_change?.ticker)
+        .map((e) => ({ date: e.date, ticker: e.ticker_change!.ticker }))
+        .sort((a, b) => (a.date < b.date ? 1 : -1));
+    } catch (e) {
+      if (e instanceof MassiveError && e.status === 404) return [];
+      throw e;
+    }
   }
 
   /** 某天执行的拆股 */
