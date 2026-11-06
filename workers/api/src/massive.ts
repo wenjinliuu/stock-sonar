@@ -106,7 +106,8 @@ export class MassiveClient {
   constructor(
     private apiKey: string,
     private baseUrl = 'https://api.massive.com',
-    private fetchImpl: typeof fetch = fetch,
+    // 注意：不能直接保存全局 fetch 再用 this.fetchImpl() 调用，Workers 会报 Illegal invocation
+    private fetchImpl: typeof fetch = (input, init) => fetch(input, init),
   ) {}
 
   private async get<T>(path: string): Promise<T> {

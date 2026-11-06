@@ -15,7 +15,17 @@ export default {
         (r) => {
           if (r.jobs.length || r.universeSynced || r.backfillSeeded) console.log(JSON.stringify(r));
         },
-        (e) => console.error('tick 失败', e),
+        async (e) => {
+          console.error('tick 失败', e);
+          // 写进 runs 表，方便直接查 D1 定位问题
+          const msg = e instanceof Error ? `${e.name}: ${e.message}\n${e.stack ?? ''}` : String(e);
+          await env.DB.prepare(
+            "INSERT INTO runs (run_id, kind, started_at, finished_at, status, error) VALUES (?, 'ingest', ?, ?, 'error', ?)",
+          )
+            .bind(crypto.randomUUID(), new Date(controller.scheduledTime).toISOString(), new Date().toISOString(), msg.slice(0, 2000))
+            .run()
+            .catch(() => {});
+        },
       ),
     );
   },

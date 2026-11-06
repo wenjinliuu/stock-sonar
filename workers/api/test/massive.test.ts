@@ -46,3 +46,18 @@ describe('massive', () => {
     expect(c.calls).toBe(1);
   });
 });
+
+describe('默认 fetch 调用方式', () => {
+  it('不以方法形式调用全局 fetch（Workers 里会 Illegal invocation）', async () => {
+    const { vi } = await import('vitest');
+    vi.stubGlobal('fetch', function (this: unknown) {
+      if (this !== undefined && this !== globalThis) throw new TypeError('Illegal invocation');
+      return Promise.resolve(Response.json({ status: 'OK', results: [] }));
+    });
+    try {
+      await expect(new MassiveClient('k').grouped('2026-11-05')).resolves.toEqual([]);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+});
