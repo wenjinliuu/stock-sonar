@@ -26,6 +26,9 @@
     }
   ],
 
+  // Python 计算容器（workers/compute），扫描时分批调用
+  "services": [{ "binding": "COMPUTE", "service": "stock-sonar-compute" }],
+
   // 每分钟一次：处理拉取队列（受 Massive 免费版 5 次/分钟限制，每次最多 4 个请求）。
   // 美东 16:30 之后自动把当天日线排进队列；空闲时只做一次 D1 读取就返回。
   "triggers": { "crons": ["* * * * *"] },

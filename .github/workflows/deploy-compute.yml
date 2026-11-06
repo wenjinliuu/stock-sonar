@@ -1,7 +1,10 @@
 name: Deploy compute container
 
-# Python 容器（需 Workers Paid + Docker 构建）。P1 前只手动触发。
+# Python 计算容器（需 Workers Paid + Docker 构建）。workers/compute 有改动时自动部署。
 on:
+  push:
+    branches: [main]
+    paths: ['workers/compute/**', '.github/workflows/deploy-compute.yml']
   workflow_dispatch:
 
 jobs:
