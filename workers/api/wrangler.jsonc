@@ -32,7 +32,11 @@
 
   "vars": {
     "MASSIVE_BASE_URL": "https://api.massive.com",
-    "MAX_CALLS_PER_TICK": "4"
+    "MAX_CALLS_PER_TICK": "4",
+    // Cloudflare Access（非机密）：/api/* 校验 Access JWT，失败即 403
+    "ACCESS_TEAM_DOMAIN": "restless-band-26d5.cloudflareaccess.com",
+    "ACCESS_AUD": "ab0bb9203ed78a50405551b8c62ec8412bd553421fdfdea959dfd4d12f31653f",
+    "ACCESS_ALLOWED_EMAILS": "wenjinuu@gmail.com"
   }
   // 密钥（不进仓库）：MASSIVE_API_KEY —— 由 GitHub Actions 部署时用 wrangler secret 写入
 }

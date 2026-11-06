@@ -1,11 +1,15 @@
 import type { Env } from './env';
 import { runTick } from './ingest';
 import { apiRoutes } from './api';
+import { verifyAccess } from './access';
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    if (url.pathname.startsWith('/api/')) return apiRoutes(request, env, url);
+    if (url.pathname.startsWith('/api/')) {
+      if (!(await verifyAccess(request, env))) return new Response('forbidden', { status: 403 });
+      return apiRoutes(request, env, url);
+    }
     return env.ASSETS.fetch(request);
   },
 

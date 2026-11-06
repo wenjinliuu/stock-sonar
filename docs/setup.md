@@ -14,6 +14,10 @@
 | 6 | Cloudflare → Workers & Pages → `stock-sonar` → Settings → Domains & Routes | 在 `workers.dev` 一行点 **Enable Cloudflare Access**，再点 **Manage Cloudflare Access**，把策略改成只放行 `wenjinuu@gmail.com`（登录方式：邮箱一次性验证码） | ☐ |
 | 7 | 手机浏览器打开 `https://stock-sonar.<你的子域>.workers.dev` | 用邮箱验证码登录，看到「数据状态」页；回补完成后「满 480 根的股票」应接近活跃股票数 | ☐ |
 
+已由 Claude 完成：`/api/*` 额外校验 Access JWT（团队域名、AUD、允许邮箱写在 `workers/api/wrangler.jsonc` 的 vars 里，非机密；改了 Access 应用要同步更新）。
+
+注意：Access 要选「生产和预览」，只选「仅预览」时正式网址仍是公开的。
+
 已由 Claude 完成：D1 数据库 `stock-sonar` 已创建（APAC），ID 已写进 `workers/api/wrangler.jsonc`。
 
 ## 以后阶段再做
