@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>个股页 NVDA</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue",sans-serif;color:#1E2329}
+a{color:#1E2329}a:hover{color:#1E2329}
+</style>
+</helmet>
+<div style="width: 390px; height: 1010px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; position: relative">
+  <div style="display: flex; align-items: center; height: 56px; padding: 0 8px 0 4px; gap: 4px">
+    <a href="Main.dc.html" aria-label="返回今日" style="text-decoration: none; padding: 10px; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"></path></svg></a>
+    <button style="border: 0; background: transparent; padding: 0; font: inherit; color: #1E2329; display: flex; flex-direction: column; align-items: flex-start; flex-grow: 1">
+      <span style="font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 4px">NVDA<svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3h8L5 8z" fill="#1E2329"></path></svg></span>
+      <span style="font-size: 12px; color: #707A8A">英伟达 · 纳斯达克 · 核心池</span>
+    </button>
+    <button aria-label="AI 解读" style="border: 0; background: transparent; padding: 8px; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8z" fill="#4D7CFE"></path><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z" fill="#9A6CF0"></path></svg></button>
+    <button aria-label="加入股票池" style="border: 0; background: transparent; padding: 8px; display: flex; color: #1E2329"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"></path></svg></button>
+    <button aria-label="提醒" style="border: 0; background: transparent; padding: 8px; display: flex; color: #1E2329"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20.5a2 2 0 0 0 4 0"></path></svg></button>
+  </div>
+
+  <div style="display: flex; gap: 22px; padding: 0 16px; border-bottom: 1px solid #EAECEF">
+    <sc-for list="{{topTabs}}" as="t" hint-placeholder-count="5">
+      <button onClick="{{t.pick}}" style="border: 0; background: transparent; font: inherit; font-size: 16px; padding: 8px 0 10px; position: relative; {{t.style}}">{{t.label}}<span style="position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 2px; {{t.bar}}"></span></button>
+    </sc-for>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; padding: 12px 16px 8px; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 2px">
+      <span style="font-size: 32px; font-weight: 700; color: #03A66D; font-variant-numeric: tabular-nums; letter-spacing: -0.5px">{{lastPrice}}</span>
+      <span style="font-size: 13px; font-variant-numeric: tabular-nums"><span style="color: #1E2329">{{chg}}</span> <span style="color: #03A66D">{{chgPct}}</span></span>
+      <span style="font-size: 12px; color: #C99400">示例数据 · 11/05 收盘</span>
+    </div>
+    <div style="display: grid; grid-template-columns: auto auto; column-gap: 16px; row-gap: 5px; font-size: 12px; font-variant-numeric: tabular-nums; align-content: start">
+      <span style="color: #929AA5">最高</span><span style="text-align: right">{{dayHi}}</span>
+      <span style="color: #929AA5">最低</span><span style="text-align: right">{{dayLo}}</span>
+      <span style="color: #929AA5">成交量</span><span style="text-align: right">2.31 亿</span>
+      <span style="color: #929AA5">52 周高</span><span style="text-align: right">{{hiLabel}}</span>
+    </div>
+  </div>
+
+  <a href="Main.dc.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; margin: 0 16px 10px; font-size: 13px">
+    <span style="background: #F5F5F5; border-radius: 3px; padding: 2px 6px; font-size: 12px; font-weight: 600">声呐</span>
+    <span style="font-weight: 600">综合分 9.2</span>
+    <span style="color: #03A66D; font-weight: 600">看多</span>
+    <span style="color: #C99400; font-weight: 600">共振 · 期权 + 研报</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#929AA5" stroke-width="2" style="margin-left: auto" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+  </a>
+
+  <div style="height: 8px; background: #F5F5F5"></div>
+
+  <div style="display: flex; align-items: center; gap: 18px; padding: 0 16px; height: 42px; font-size: 14px">
+    <sc-for list="{{periods}}" as="p" hint-placeholder-count="5">
+      <button onClick="{{p.pick}}" style="border: 0; background: transparent; font: inherit; padding: 6px 0; {{p.style}}">{{p.label}}</button>
+    </sc-for>
+    <span style="color: #707A8A; display: flex; align-items: center; gap: 3px">更多<svg width="8" height="8" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3h8L5 8z" fill="#707A8A"></path></svg></span>
+    <a href="Drawer.dc.html" aria-label="指标设置" style="text-decoration: none; margin-left: auto; display: flex; padding: 4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E2329" stroke-width="1.7" aria-hidden="true"><path d="M4 6h10M4 12h6M4 18h10"></path><circle cx="17" cy="12" r="3"></circle><path d="M17 7v2M17 15v2"></path></svg></a>
+    <button aria-label="指标模板" style="border: 0; background: transparent; display: flex; padding: 4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E2329" stroke-width="1.7" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1"></rect><rect x="13" y="4" width="7" height="7" rx="1"></rect><rect x="4" y="13" width="7" height="7" rx="1"></rect><rect x="13" y="13" width="7" height="7" rx="1"></rect></svg></button>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; column-gap: 10px; row-gap: 2px; padding: 0 16px 2px; font-size: 11px; font-variant-numeric: tabular-nums; border-top: 1px solid #EAECEF; padding-top: 6px">
+    <span style="color: #2EBD85">ST(10,3): 179.80</span>
+    <span style="color: #F0B90B">MA(20): 180.12</span>
+    <span style="color: #E04A9B">MA(50): 172.35</span>
+    <span style="color: #8B6CEF">MA(200): 158.40</span>
+  </div>
+  <div role="img" aria-label="NVDA 日线 K 线图，叠加 SuperTrend 与均线，标注区间最高最低价和信号（示例）" style="position: relative; width: 390px; height: 250px">
+    <svg width="390" height="250" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+      <line x1="0" y1="50" x2="390" y2="50" stroke="#F0F1F2"></line>
+      <line x1="0" y1="100" x2="390" y2="100" stroke="#F0F1F2"></line>
+      <line x1="0" y1="150" x2="390" y2="150" stroke="#F0F1F2"></line>
+      <line x1="0" y1="200" x2="390" y2="200" stroke="#F0F1F2"></line>
+      <line x1="110" y1="0" x2="110" y2="250" stroke="#F0F1F2"></line>
+      <line x1="230" y1="0" x2="230" y2="250" stroke="#F0F1F2"></line>
+      <polyline points="{{ma50}}" fill="none" stroke="#E04A9B" stroke-width="1.1"></polyline>
+      <polyline points="{{ma20}}" fill="none" stroke="#F0B90B" stroke-width="1.1"></polyline>
+      <polyline points="{{stDown}}" fill="none" stroke="#F6465D" stroke-width="1.4" stroke-dasharray="4 2"></polyline>
+      <polyline points="{{stUp}}" fill="none" stroke="#2EBD85" stroke-width="1.4" stroke-dasharray="4 2"></polyline>
+      <line x1="{{hiX}}" y1="{{hiY}}" x2="{{hiX2}}" y2="{{hiY}}" stroke="#1E2329" stroke-width="0.8"></line>
+      <line x1="{{loX}}" y1="{{loY}}" x2="{{loX2}}" y2="{{loY}}" stroke="#1E2329" stroke-width="0.8"></line>
+      <line x1="0" y1="{{lastY}}" x2="336" y2="{{lastY}}" stroke="#1E2329" stroke-dasharray="2 3" stroke-width="0.8"></line>
+    </svg>
+    <sc-for list="{{candles}}" as="c" hint-placeholder-count="60">
+      <div style="position: absolute; left: {{c.wx}}px; top: {{c.wy}}px; width: 1px; height: {{c.wh}}px; background: {{c.color}}"></div>
+      <div style="position: absolute; left: {{c.bx}}px; top: {{c.by}}px; width: 4px; height: {{c.bh}}px; background: {{c.color}}"></div>
+    </sc-for>
+    <div style="position: absolute; left: {{hiLabelX}}px; top: {{hiLabelY}}px; font-size: 10px; color: #1E2329; font-variant-numeric: tabular-nums">{{hiLabel}}</div>
+    <div style="position: absolute; left: {{loLabelX}}px; top: {{loLabelY}}px; font-size: 10px; color: #1E2329; font-variant-numeric: tabular-nums">{{loLabel}}</div>
+    <div style="position: absolute; left: {{sig.x}}px; top: {{sig.y}}px; display: flex; flex-direction: column; align-items: center">
+      <svg width="8" height="6" aria-hidden="true"><path d="M4 0L8 6H0z" fill="#2EBD85"></path></svg>
+      <span style="font-size: 9px; font-weight: 700; color: #FFFFFF; background: #2EBD85; border-radius: 2px; padding: 0 3px">B</span>
+    </div>
+    <div style="position: absolute; left: {{evO}}px; top: 236px; font-size: 9px; font-weight: 700; color: #8B6CEF; border: 1px solid #8B6CEF; border-radius: 2px; padding: 0 2px; background: #FFFFFF">权</div>
+    <div style="position: absolute; left: {{evR}}px; top: 236px; font-size: 9px; font-weight: 700; color: #4D7CFE; border: 1px solid #4D7CFE; border-radius: 2px; padding: 0 2px; background: #FFFFFF">研</div>
+    <div style="position: absolute; right: 2px; top: {{lastYLabel}}px; font-size: 11px; color: #1E2329; background: #FFFFFF; border: 1px solid #1E2329; border-radius: 4px; padding: 1px 5px; font-variant-numeric: tabular-nums">{{lastPrice}}</div>
+    <div style="position: absolute; right: 6px; top: 2px; font-size: 10px; color: #707A8A; font-variant-numeric: tabular-nums">{{axis0}}</div>
+    <div style="position: absolute; right: 6px; top: 92px; font-size: 10px; color: #707A8A; font-variant-numeric: tabular-nums">{{axis1}}</div>
+    <div style="position: absolute; right: 6px; top: 192px; font-size: 10px; color: #707A8A; font-variant-numeric: tabular-nums">{{axis2}}</div>
+    <button aria-label="横屏全屏" style="position: absolute; left: 10px; top: 206px; width: 32px; height: 32px; border-radius: 8px; border: 1px solid #EAECEF; background: #FFFFFF; display: flex; align-items: center; justify-content: center; padding: 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E2329" stroke-width="1.8" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"></path></svg></button>
+  </div>
+  <div style="display: flex; justify-content: space-around; padding: 3px 40px 3px 0; font-size: 10px; color: #707A8A; border-top: 1px solid #EAECEF; font-variant-numeric: tabular-nums">
+    <span>2026-08-03</span><span>2026-09-24</span>
+  </div>
+
+  <div style="display: flex; gap: 10px; padding: 5px 16px 0; font-size: 11px; font-variant-numeric: tabular-nums; border-top: 1px solid #EAECEF">
+    <span style="color: #707A8A">VOL: 2.31亿</span>
+    <span style="color: #F0B90B">MA(5): 1.92亿</span>
+    <span style="color: #8B6CEF">MA(10): 1.75亿</span>
+  </div>
+  <div role="img" aria-label="成交量柱（示例）" style="position: relative; width: 390px; height: 46px">
+    <svg width="390" height="46" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+      <polyline points="{{volMa5}}" fill="none" stroke="#F0B90B" stroke-width="1"></polyline>
+      <polyline points="{{volMa10}}" fill="none" stroke="#8B6CEF" stroke-width="1"></polyline>
+    </svg>
+    <sc-for list="{{vols}}" as="v" hint-placeholder-count="60">
+      <div style="position: absolute; left: {{v.x}}px; bottom: 0; width: 4px; height: {{v.h}}px; background: {{v.color}}"></div>
+    </sc-for>
+  </div>
+
+  <div style="display: flex; gap: 10px; padding: 5px 16px 0; font-size: 11px; font-variant-numeric: tabular-nums; border-top: 1px solid #EAECEF">
+    <span style="color: #1E2329">SQZMOM(20)</span>
+    <span style="color: #2EBD85">1.84</span>
+    <span style="color: #707A8A">挤压已释放</span>
+  </div>
+  <div role="img" aria-label="Squeeze Momentum 柱状图（示例）" style="position: relative; width: 390px; height: 56px">
+    <div style="position: absolute; left: 0; top: 28px; width: 336px; height: 1px; background: #EAECEF"></div>
+    <sc-for list="{{sq}}" as="b" hint-placeholder-count="60">
+      <div style="position: absolute; left: {{b.x}}px; top: {{b.y}}px; width: 4px; height: {{b.h}}px; background: {{b.color}}"></div>
+      <div style="position: absolute; left: {{b.dx}}px; top: 27px; width: 3px; height: 3px; border-radius: 2px; background: {{b.dot}}"></div>
+    </sc-for>
+    <div style="position: absolute; right: 6px; top: 22px; font-size: 10px; color: #707A8A">0.00</div>
+  </div>
+
+  <div style="display: flex; gap: 10px; padding: 5px 16px 0; font-size: 11px; font-variant-numeric: tabular-nums; border-top: 1px solid #EAECEF">
+    <span style="color: #F0B90B">WT1: -32.40</span>
+    <span style="color: #8B6CEF">WT2: -41.02</span>
+    <span style="color: #707A8A">低位金叉</span>
+  </div>
+  <div role="img" aria-label="WaveTrend 振荡器（示例）" style="position: relative; width: 390px; height: 56px">
+    <svg width="390" height="56" aria-hidden="true">
+      <line x1="0" y1="8" x2="336" y2="8" stroke="#B7BDC6" stroke-dasharray="3 3"></line>
+      <line x1="0" y1="48" x2="336" y2="48" stroke="#B7BDC6" stroke-dasharray="3 3"></line>
+      <polyline points="{{wt2}}" fill="none" stroke="#8B6CEF" stroke-width="1.1"></polyline>
+      <polyline points="{{wt1}}" fill="none" stroke="#F0B90B" stroke-width="1.3"></polyline>
+    </svg>
+    <div style="position: absolute; right: 6px; top: 2px; font-size: 10px; color: #707A8A">60</div>
+    <div style="position: absolute; right: 6px; top: 40px; font-size: 10px; color: #707A8A">-60</div>
+  </div>
+
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; background: #FFFFFF; border-top: 1px solid #EAECEF; display: flex; align-items: center; gap: 14px; padding: 10px 16px 26px">
+    <a href="Main.dc.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-width="2.6" stroke-linecap="round"></path></svg>更多</a>
+    <a href="Drawer.dc.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 4v16M17 4v16"></path><rect x="5" y="8" width="4" height="7" rx="1"></rect><rect x="15" y="6" width="4" height="9" rx="1"></rect></svg>指标</a>
+    <button style="flex-grow: 1; height: 44px; border: 0; border-radius: 8px; background: #F5F5F5; font: inherit; font-size: 15px; font-weight: 600; color: #1E2329">设提醒</button>
+    <button style="flex-grow: 1; height: 44px; border: 0; border-radius: 8px; background: #FCD535; font: inherit; font-size: 15px; font-weight: 600; color: #1E2329">看信号详情</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1010}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { top: 0, period: 4 }; }
+  renderVals() {
+    var n = 60, W = 330, step = W / n, G = '#2EBD85', R = '#F6465D';
+    var closes = [], opens = [], highs = [], lows = [], vol = [];
+    var prev = 196;
+    for (var i = 0; i < n; i++) {
+      var c = 196 + 14 * Math.sin(i / 7) + i * 0.5 + 3 * Math.sin(i * 2.7) + 1.6 * Math.cos(i * 1.3);
+      if (i > 40 && i < 50) c += (i - 40) * 2.4;
+      if (i >= 50) c += 24 - (i - 50) * 4.6;
+      var o = prev + 1.2 * Math.sin(i * 5.1);
+      opens.push(o); closes.push(c);
+      highs.push(Math.max(o, c) + 1 + Math.abs(Math.sin(i * 3.1)) * 3);
+      lows.push(Math.min(o, c) - 1 - Math.abs(Math.cos(i * 2.3)) * 3);
+      vol.push(4 + 10 * Math.abs(Math.sin(i * 1.9)) + (i > 44 ? 14 : 0) + (i === 58 ? 14 : 0));
+      prev = c;
+    }
+    closes[n - 1] = opens[n - 1] + 6; highs[n - 1] = closes[n - 1] + 1;
+    var hi = Math.max.apply(null, highs) + 4, lo = Math.min.apply(null, lows) - 4;
+    var Y = function (p) { return Math.round(((hi - p) / (hi - lo)) * 226 + 12); };
+    var X = function (i) { return Math.round(4 + i * step); };
+    var candles = [], vols = [];
+    var hiIdx = 0, loIdx = 0;
+    for (var j = 0; j < n; j++) {
+      if (highs[j] > highs[hiIdx]) hiIdx = j;
+      if (lows[j] < lows[loIdx]) loIdx = j;
+      var up = closes[j] >= opens[j], top = Y(Math.max(opens[j], closes[j])), bot = Y(Math.min(opens[j], closes[j]));
+      candles.push({ wx: X(j) + 1.5, wy: Y(highs[j]), wh: Y(lows[j]) - Y(highs[j]), bx: X(j), by: top, bh: Math.max(1, bot - top), color: up ? G : R });
+      vols.push({ x: X(j), h: Math.round(vol[j]), color: up ? G : R });
+    }
+    var maOf = function (arr, len, yf) { var pts = []; for (var k = len - 1; k < n; k++) { var s = 0; for (var m = k - len + 1; m <= k; m++) s += arr[m]; pts.push((X(k) + 2) + ',' + yf(s / len)); } return pts.join(' '); };
+    var stUpPts = [], stDnPts = [];
+    for (var q = 6; q < n; q++) {
+      var mn = Math.min.apply(null, lows.slice(q - 6, q + 1)) - 2, mx = Math.max.apply(null, highs.slice(q - 6, q + 1)) + 2;
+      if (q >= 38 && q < 52) stUpPts.push((X(q) + 2) + ',' + Y(mn)); else if (q >= 52) stDnPts.push((X(q) + 2) + ',' + Y(mx));
+    }
+    var sq = [];
+    for (var a = 0; a < n; a++) {
+      var base = 0, cnt = 0; for (var b2 = Math.max(0, a - 9); b2 <= a; b2++) { base += closes[b2]; cnt++; }
+      var v = closes[a] - base / cnt, h = Math.min(26, Math.abs(v) * 2.2), rising = a > 0 && Math.abs(v) > Math.abs(closes[a - 1] - base / cnt);
+      sq.push({ x: X(a), y: v >= 0 ? 28 - h : 28, h: Math.max(1, h), color: v >= 0 ? (rising ? G : '#9BE3C6') : (rising ? R : '#FBB1BB'), dx: X(a), dot: (a >= 30 && a <= 38) ? '#1E2329' : '#B7BDC6' });
+    }
+    var wt1 = [], wt2 = [];
+    for (var w = 0; w < n; w++) {
+      var y1 = 28 - 19 * Math.sin(w / 5 - 1.2), y2 = 28 - 19 * Math.sin((w - 2) / 5 - 1.2);
+      wt1.push((X(w) + 2) + ',' + y1.toFixed(1)); wt2.push((X(w) + 2) + ',' + y2.toFixed(1));
+    }
+    var vY = function (val) { return Math.round(46 - val); };
+    var self = this;
+    var tab = function (names, key, active, idle) {
+      return names.map(function (l, i) {
+        var on = self.state[key] === i;
+        var o = { label: l, style: on ? active : idle, pick: function () { var s = {}; s[key] = i; self.setState(s); } };
+        o.bar = on ? 'background:#F0B90B' : 'background:transparent';
+        return o;
+      });
+    };
+    var lastY = Y(closes[n - 1]);
+    var f = function (x) { return x.toFixed(2); };
+    return {
+      topTabs: tab(['行情', '信号', '期权', '研报', '新闻'], 'top', 'color:#1E2329;font-weight:700', 'color:#707A8A'),
+      periods: tab(['日线', '周线', '月线', '6月', '1年'], 'period', 'color:#1E2329;font-weight:700', 'color:#707A8A'),
+      candles: candles, vols: vols,
+      ma20: maOf(closes, 20, Y), ma50: maOf(closes, 30, Y),
+      volMa5: maOf(vol, 5, vY), volMa10: maOf(vol, 10, vY),
+      stUp: stUpPts.join(' '), stDown: stDnPts.join(' '),
+      hiX: X(hiIdx) + 4, hiX2: X(hiIdx) + 22, hiY: Y(highs[hiIdx]), hiLabel: f(highs[hiIdx]), hiLabelX: X(hiIdx) + 24, hiLabelY: Y(highs[hiIdx]) - 7,
+      loX: X(loIdx) + 4, loX2: X(loIdx) + 22, loY: Y(lows[loIdx]), loLabel: f(lows[loIdx]), loLabelX: X(loIdx) + 24, loLabelY: Y(lows[loIdx]) - 7,
+      lastY: lastY, lastYLabel: lastY - 10, lastPrice: f(closes[n - 1]), dayHi: f(highs[n - 1]), dayLo: f(lows[n - 1]), chg: '+' + f(closes[n - 1] - closes[n - 2]), chgPct: '+' + f((closes[n - 1] / closes[n - 2] - 1) * 100) + '%',
+      axis0: f(hi - (hi - lo) * 0.0), axis1: f(hi - (hi - lo) * 0.4), axis2: f(hi - (hi - lo) * 0.85),
+      sig: { x: X(38) - 2, y: Y(lows[38]) + 3 }, evO: X(43), evR: X(46),
+      sq: sq, wt1: wt1.join(' '), wt2: wt2.join(' ')
+    };
+  }
+}
+</script>
+</body>
+</html>

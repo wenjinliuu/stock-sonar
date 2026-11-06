@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>今日机会清单</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue",sans-serif;color:#1E2329}
+a{color:#1E2329}a:hover{color:#1E2329}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #FFFFFF; display: flex; flex-direction: column; overflow: hidden">
+  <div style="flex-grow: 1; overflow: hidden; display: flex; flex-direction: column">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px 10px">
+      <div style="display: flex; align-items: baseline; gap: 8px">
+        <h1 style="margin: 0; font-size: 20px; font-weight: 700">今日机会</h1>
+        <span style="font-size: 12px; color: #707A8A">11/06 周五 · 收盘后</span>
+      </div>
+      <span style="font-size: 11px; color: #707A8A; border: 1px solid #EAECEF; border-radius: 4px; padding: 2px 6px">示例数据</span>
+    </div>
+
+    <div style="display: flex; gap: 18px; padding: 0 16px 12px; font-size: 12px; font-variant-numeric: tabular-nums">
+      <span style="color: #707A8A">SPY <span style="color: #03A66D; font-weight: 600">+0.42%</span></span>
+      <span style="color: #707A8A">QQQ <span style="color: #03A66D; font-weight: 600">+0.68%</span></span>
+      <span style="color: #707A8A">VIX <span style="color: #CF304A; font-weight: 600">-3.1%</span></span>
+      <span style="color: #707A8A; margin-left: auto">上榜 <span style="color: #1E2329; font-weight: 600">8</span> / 552</span>
+    </div>
+
+    <div style="display: flex; gap: 20px; padding: 0 16px; border-bottom: 1px solid #EAECEF">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+        <button onClick="{{t.pick}}" style="border: 0; background: transparent; font: inherit; font-size: 14px; padding: 8px 0; margin-bottom: -1px; {{t.style}}">{{t.label}}</button>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; padding: 8px 16px; font-size: 11px; color: #707A8A">
+      <span style="width: 92px">代码 / 名称</span>
+      <span style="flex-grow: 1">触发信号</span>
+      <span style="width: 64px; text-align: right">综合分 / 方向</span>
+    </div>
+
+    <sc-for list="{{rows}}" as="s" hint-placeholder-count="8">
+      <a href="Stock.dc.html" style="text-decoration: none; display: flex; align-items: center; padding: 10px 16px; border-bottom: 1px solid #F5F5F5">
+        <div style="width: 92px; display: flex; flex-direction: column; gap: 2px">
+          <div style="display: flex; align-items: center; gap: 4px">
+            <span style="font-size: 15px; font-weight: 600">{{s.ticker}}</span>
+            <sc-if value="{{s.hot}}" hint-placeholder-val="{{ false }}">
+              <span style="font-size: 10px; font-weight: 600; color: #1E2329; background: #FCD535; border-radius: 2px; padding: 0 3px">共振</span>
+            </sc-if>
+          </div>
+          <span style="font-size: 11px; color: #707A8A">{{s.name}}</span>
+        </div>
+        <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0">
+          <span style="font-size: 12px; color: #1E2329; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{s.sig}}</span>
+          <span style="font-size: 11px; color: #707A8A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{s.sub}}</span>
+        </div>
+        <span style="width: 64px; height: 34px; border-radius: 6px; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left: 8px; {{s.dirStyle}}"><span style="font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1">{{s.score}}</span><span style="font-size: 10px; line-height: 1.2">{{s.dir}}</span></span>
+      </a>
+    </sc-for>
+    <div style="padding: 12px 16px; font-size: 11px; color: #707A8A; line-height: 1.5">仅「共振」标记的机会会推送到手机；其余上榜股票只在这里查看。</div>
+  </div>
+
+  <nav style="background: #FFFFFF; border-top: 1px solid #EAECEF; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 6px 0 24px">
+    <a href="Main.dc.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #1E2329; font-size: 10px; font-weight: 600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="0.8"></circle></svg>今日</a>
+    <a href="Stock.dc.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #929AA5; font-size: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 4v16M17 4v16"></path><rect x="5" y="8" width="4" height="7" rx="1"></rect><rect x="15" y="6" width="4" height="9" rx="1"></rect></svg>行情</a>
+    <a href="Main.dc.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #929AA5; font-size: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h9"></path></svg>股票池</a>
+    <a href="Drawer.dc.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #929AA5; font-size: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 17l5-6 4 3 7-8"></path></svg>信号库</a>
+    <a href="Main.dc.html" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #929AA5; font-size: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"></path></svg>设置</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { tab: 0 }; }
+  renderVals() {
+    var self = this;
+    var bull = 'background:#2EBD85', bear = 'background:#F6465D';
+    var all = [
+      { ticker: 'NVDA', name: '英伟达', hot: true, sig: 'SuperTrend 翻多 · Squeeze 释放', sub: '放量突破 · 期权 Call 异动 · 研报上调', dir: '看多', d: 1, dirStyle: bull, score: '9.2', ai: true },
+      { ticker: 'MU', name: '美光', hot: true, sig: 'WaveTrend 低位金叉 · 回踩 MA50', sub: '周线向上 · 期权 Call 异动', dir: '看多', d: 1, dirStyle: bull, score: '8.4', ai: true },
+      { ticker: 'AVGO', name: '博通', hot: false, sig: 'Squeeze 收口 · ADX 走强', sub: '等待方向确认', dir: '看多', d: 1, dirStyle: bull, score: '7.6', ai: true },
+      { ticker: 'VST', name: 'Vistra', hot: false, sig: 'RS 线创新高 · 放量', sub: 'Minervini 趋势模板符合', dir: '看多', d: 1, dirStyle: bull, score: '7.1', ai: true },
+      { ticker: 'SMCI', name: '超微电脑', hot: false, sig: 'SuperTrend 翻空 · 跌破 MA50', sub: 'SMC 结构 CHoCH 向下', dir: '看空', d: -1, dirStyle: bear, score: '6.8', ai: true },
+      { ticker: 'ANET', name: 'Arista', hot: false, sig: 'Williams Vix Fix 恐慌低点', sub: '超卖区，等待反转确认', dir: '看多', d: 1, dirStyle: bull, score: '6.5', ai: true },
+      { ticker: 'TSLA', name: '特斯拉', hot: false, sig: 'WaveTrend 高位死叉', sub: '偏离 MA50 超 2 倍 ATR', dir: '看空', d: -1, dirStyle: bear, score: '6.2', ai: false },
+      { ticker: 'JPM', name: '摩根大通', hot: false, sig: '突破前高 · 量能放大', sub: '支撑压力位上破', dir: '看多', d: 1, dirStyle: bull, score: '6.0', ai: false }
+    ];
+    var names = ['全部', '看多', '看空', '共振', 'AI 核心'];
+    var tabs = names.map(function (l, i) {
+      var on = self.state.tab === i;
+      return { label: l, style: on ? 'color:#1E2329;font-weight:700;border-bottom:3px solid #F0B90B' : 'color:#707A8A;border-bottom:3px solid transparent', pick: function () { self.setState({ tab: i }); } };
+    });
+    var t = this.state.tab;
+    var rows = all.filter(function (r) { return t === 0 || (t === 1 && r.d > 0) || (t === 2 && r.d < 0) || (t === 3 && r.hot) || (t === 4 && r.ai); });
+    return { tabs: tabs, rows: rows };
+  }
+}
+</script>
+</body>
+</html>
