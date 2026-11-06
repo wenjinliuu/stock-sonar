@@ -15,6 +15,9 @@ export async function apiRoutes(request: Request, env: Env, url: URL): Promise<R
   const db = env.DB;
   const path = url.pathname;
 
+  // 「重新登录」入口：未登录时被 Access 拦去登录，登录后回到首页
+  if (path === '/api/login') return Response.redirect(new URL('/', url).toString(), 302);
+
   if (path === '/api/health') return json({ ok: true, time: new Date().toISOString() });
 
   if (path === '/api/status') {

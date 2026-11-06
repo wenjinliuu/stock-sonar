@@ -17,8 +17,10 @@ export default defineConfig({
         icons: [{ src: '/icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
       },
       workbox: {
-        // API 不走离线缓存
-        navigateFallbackDenylist: [/^\/api\//],
+        // 页面导航一律走网络（先过 Cloudflare Access 登录），不用缓存的 index.html 兜底；
+        // 否则缓存的外壳会绕过登录，随后 /api 请求被 Access 重定向到另一个域名而报 Load failed。
+        navigateFallback: null,
+        globPatterns: ['assets/**/*.{js,css}', '*.svg'],
       },
     }),
   ],

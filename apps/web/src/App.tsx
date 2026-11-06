@@ -15,13 +15,23 @@ const KIND_LABEL: Record<string, string> = { grouped: '全市场日线', ticker:
 export function App() {
   const [status, setStatus] = useState<Status | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [needLogin, setNeedLogin] = useState(false);
 
   useEffect(() => {
     const load = () =>
-      fetch('/api/status')
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-        .then((s: Status) => {
+      // redirect: 'manual'：Access 登录过期时会重定向到登录域名，这里识别出来提示重新登录
+      fetch('/api/status', { redirect: 'manual', credentials: 'same-origin' })
+        .then((r) => {
+          if (r.type === 'opaqueredirect' || r.status === 401 || r.status === 403) {
+            setNeedLogin(true);
+            return null;
+          }
+          return r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`));
+        })
+        .then((s: Status | null) => {
+          if (!s) return;
           setStatus(s);
+          setNeedLogin(false);
           setError(null);
         })
         .catch((e: Error) => setError(e.message));
@@ -43,8 +53,23 @@ export function App() {
         <h1>个股声呐</h1>
         <span className="muted">P0 · 数据状态</span>
       </div>
-      {error && <div className="row bad">加载失败：{error}</div>}
-      {!status && !error && <div className="row muted">加载中…</div>}
+      {needLogin && (
+        <div className="row">
+          <span>登录已过期</span>
+          <a className="btn" href="/api/login">
+            重新登录
+          </a>
+        </div>
+      )}
+      {error && !needLogin && (
+        <div className="row bad">
+          <span>加载失败：{error}</span>
+          <a className="btn" href="/api/login">
+            重新登录
+          </a>
+        </div>
+      )}
+      {!status && !error && !needLogin && <div className="row muted">加载中…</div>}
       {status && (
         <>
           <div className="gap" />
