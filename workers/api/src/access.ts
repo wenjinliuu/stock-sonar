@@ -20,10 +20,21 @@ export interface AccessConfig {
   ACCESS_ALLOWED_EMAILS?: string;
 }
 
-/** 通过返回邮箱，未通过返回 null */
-export async function verifyAccess(request: Request, cfg: AccessConfig): Promise<string | null> {
+/** 通过返回邮箱，未通过返回 null；onReject 用于记录拒绝原因（便于排查） */
+export async function verifyAccess(
+  request: Request,
+  cfg: AccessConfig,
+  onReject?: (reason: string) => void,
+): Promise<string | null> {
   const token = request.headers.get('cf-access-jwt-assertion');
-  if (!token || !cfg.ACCESS_TEAM_DOMAIN || !cfg.ACCESS_AUD) return null;
+  if (!token) {
+    onReject?.('no-token');
+    return null;
+  }
+  if (!cfg.ACCESS_TEAM_DOMAIN || !cfg.ACCESS_AUD) {
+    onReject?.('no-config');
+    return null;
+  }
   try {
     const { payload } = await jwtVerify(token, jwks(cfg.ACCESS_TEAM_DOMAIN), {
       issuer: `https://${cfg.ACCESS_TEAM_DOMAIN}`,
@@ -34,9 +45,13 @@ export async function verifyAccess(request: Request, cfg: AccessConfig): Promise
       .split(',')
       .map((s) => s.trim().toLowerCase())
       .filter(Boolean);
-    if (allowed.length && !allowed.includes(email)) return null;
+    if (allowed.length && !allowed.includes(email)) {
+      onReject?.(`email-not-allowed`);
+      return null;
+    }
     return email || 'unknown';
-  } catch {
+  } catch (e) {
+    onReject?.(`jwt-invalid: ${(e as Error)?.message ?? e}`.slice(0, 300));
     return null;
   }
 }

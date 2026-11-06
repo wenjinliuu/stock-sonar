@@ -2,12 +2,19 @@ import type { Env } from './env';
 import { runTick } from './ingest';
 import { apiRoutes } from './api';
 import { verifyAccess } from './access';
+import { setStateStmt } from './db';
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/api/')) {
-      if (!(await verifyAccess(request, env))) return new Response('forbidden', { status: 403 });
+      const onReject = (reason: string) =>
+        ctx.waitUntil(
+          setStateStmt(env.DB, 'last_access_reject', `${new Date().toISOString()} ${url.pathname} ${reason}`)
+            .run()
+            .catch(() => {}),
+        );
+      if (!(await verifyAccess(request, env, onReject))) return new Response('forbidden', { status: 403 });
       return apiRoutes(request, env, url);
     }
     return env.ASSETS.fetch(request);
