@@ -14,14 +14,15 @@ const small = (): StaticUniverse => ({
 });
 
 describe('股票池', () => {
-  it('仓库股票池：标普 500 ∪ 纳指 100 去重约 518 只 + 基准 ETF，AI 清单暂空', () => {
+  it('仓库股票池：标普 500 ∪ 纳指 100 ∪ AI 清单 + 基准 ETF，约 560 只', () => {
     const m = mergeUniverse(STATIC_UNIVERSE);
     expect(STATIC_UNIVERSE.sp500.length).toBeGreaterThan(495);
     expect(STATIC_UNIVERSE.ndx100.length).toBeGreaterThanOrEqual(100);
-    expect(m.size).toBeGreaterThan(510);
-    expect(m.get('AAPL')?.sources).toEqual(['sp500', 'ndx100']);
+    expect(m.size).toBeGreaterThan(550);
+    expect(m.get('AAPL')?.sources).toEqual(['sp500', 'ndx100', 'ai']);
     expect(m.get('SPY')?.sources).toEqual(['benchmark']);
-    expect(STATIC_UNIVERSE.ai).toEqual([]);
+    expect(m.get('TSM')).toMatchObject({ sources: ['ai'], tags: ['芯片·晶圆代工'] });
+    expect(m.get('NVDA')?.tags[0]).toBe('芯片·GPU/加速器');
   });
 
   it('同步：tier/active 推导、哈希不变时跳过、移出指数后停用', async () => {

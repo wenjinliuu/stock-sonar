@@ -79,7 +79,8 @@ def read_csv(source: str) -> list[dict]:
         return []
     with path.open(encoding="utf-8") as f:
         out = []
-        for r in csv.DictReader(f):
+        lines = [ln for ln in f if not ln.lstrip().startswith("#")]  # 允许 # 开头的注释行
+        for r in csv.DictReader(lines):
             t = _norm(r.get("ticker") or "")
             if not t or t.startswith("#"):
                 continue

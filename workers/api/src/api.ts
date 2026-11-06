@@ -65,7 +65,8 @@ export async function apiRoutes(request: Request, env: Env, url: URL): Promise<R
       db.prepare('SELECT date, status, scanned, failed, spec, started_at, finished_at FROM scan_queue WHERE date = ?').bind(date),
       db
         .prepare(
-          `SELECT o.ticker, t.name, t.tier, t.tags, o.score, o.direction, o.rank, o.resonance, o.categories, o.reasons_json, o.detail_json
+          `SELECT o.ticker, t.name, t.tier, t.tags,
+                  EXISTS (SELECT 1 FROM ticker_sources s WHERE s.ticker = o.ticker AND s.source = 'ai') AS ai, o.score, o.direction, o.rank, o.resonance, o.categories, o.reasons_json, o.detail_json
            FROM opportunities o JOIN tickers t ON t.ticker = o.ticker
            WHERE o.date = ? ORDER BY o.direction, o.rank`,
         )
@@ -91,7 +92,7 @@ export async function apiRoutes(request: Request, env: Env, url: URL): Promise<R
         change: m.prev ? m.close / m.prev - 1 : null,
       })),
       items: ((items?.results ?? []) as Record<string, unknown>[]).map((r) => ({
-        ticker: r.ticker, name: r.name, tier: r.tier, tags: parse(r.tags), score: r.score, direction: r.direction,
+        ticker: r.ticker, name: r.name, tier: r.tier, tags: parse(r.tags), ai: !!r.ai, score: r.score, direction: r.direction,
         rank: r.rank, resonance: parse(r.resonance), categories: parse(r.categories), reasons: parse(r.reasons_json),
         detail: parse(r.detail_json),
       })),

@@ -45,7 +45,7 @@ describe('每日扫描', () => {
     const r = await runScan(env, fakeCompute(calls));
     expect(r?.finished).toBe(true);
     const all = calls.flat();
-    expect(all).toHaveLength(518); // 518 只股票，不含 5 只基准 ETF
+    expect(all).toHaveLength(556); // 全部股票，不含 5 只基准 ETF
     expect(all).not.toContain('SPY');
     expect(calls[0]).toHaveLength(60);
     expect(r).toMatchObject({ scanned: 3, failed: 1 });

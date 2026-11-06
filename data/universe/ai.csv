@@ -1,1 +1,102 @@
+# AI 主题清单：来自期权日报 / 研报日报的 AI 产业链名单（wenjinliuu/ima-research-options 的 option/src/config.js 与 research/src/universe.js，取美股部分，不含「医疗健康」层与 ETF）。
+# 标签格式「层·环节」，第一个是主环节；「(相关)」= 原名单里的 edge。2026-11-06 同步。
 ticker,name,tags
+AAOI,Applied Optoelectronics,网络与光·光模块(相关)
+AAPL,苹果公司,应用与端侧·端侧/机器人(相关)
+ADBE,Adobe,应用与端侧·AI软件(相关)
+AI,C3.ai,应用与端侧·AI软件(相关)
+ALAB,Astera Labs,网络与光·交换/连接
+AMAT,应用材料,芯片·设备/材料
+AMD,超威半导体,芯片·GPU/加速器|芯片·CPU(相关)
+AMKR,安靠,芯片·封装测试|芯片·设备/材料(相关)
+AMZN,亚马逊,模型与云·大模型/云
+ANET,Arista,网络与光·交换/连接
+APH,安费诺,网络与光·交换/连接(相关)
+APLD,Applied Digital,算力租赁·GPU/算力云
+APP,AppLovin,应用与端侧·AI软件(相关)
+ARM,Arm,芯片·CPU
+ASML,阿斯麦,芯片·设备/材料
+AVGO,博通,芯片·定制ASIC
+BABA,阿里巴巴,模型与云·中概云(相关)
+BE,Bloom Energy,能源·燃料电池
+BIDU,百度,模型与云·中概云(相关)
+BWXT,BWX Technologies,能源·核能/铀(相关)
+CBRS,Cerebras,芯片·GPU/加速器
+CCJ,Cameco,能源·核能/铀(相关)
+CDNS,楷登电子,芯片·设计软件(相关)
+CEG,Constellation,能源·发电
+CIEN,Ciena,网络与光·光模块(相关)
+CIFR,Cipher Mining,算力租赁·GPU/算力云
+CLS,Celestica,服务器与数据中心·AI服务器(相关)
+COHR,相干公司,网络与光·光模块
+CORZ,Core Scientific,算力租赁·GPU/算力云
+CRDO,Credo,网络与光·交换/连接
+CRM,Salesforce,应用与端侧·AI软件(相关)
+CRWD,CrowdStrike,应用与端侧·AI软件(相关)
+CRWV,CoreWeave,算力租赁·GPU/算力云
+CSCO,思科,网络与光·交换/连接(相关)
+DDOG,Datadog,应用与端侧·AI软件(相关)
+DELL,戴尔,服务器与数据中心·AI服务器(相关)
+DLR,Digital Realty,服务器与数据中心·数据中心REIT(相关)|服务器与数据中心·数据中心/IDC(相关)
+ENTG,英特格,芯片·设备/材料(相关)
+EOSE,Eos Energy,能源·储能(相关)
+EQIX,Equinix,服务器与数据中心·数据中心REIT(相关)|服务器与数据中心·数据中心/IDC(相关)
+ETN,伊顿,服务器与数据中心·电力/散热
+FCX,自由港,原材料·铜/稀土(相关)
+FLNC,Fluence,能源·储能(相关)
+FN,Fabrinet,网络与光·光模块(相关)
+GEV,GE Vernova,能源·电网设备
+GFS,格芯,芯片·晶圆代工(相关)
+GLW,康宁,网络与光·光模块(相关)
+GOOG,谷歌,模型与云·大模型/云
+GOOGL,谷歌,模型与云·大模型/云
+HPE,慧与,服务器与数据中心·AI服务器(相关)
+IBM,IBM,应用与端侧·AI软件(相关)
+INTC,英特尔,芯片·CPU(相关)|芯片·晶圆代工(相关)
+IREN,IREN,算力租赁·GPU/算力云
+KLAC,科磊,芯片·设备/材料
+LEU,Centrus,能源·核能/铀(相关)
+LITE,Lumentum,网络与光·光模块
+LRCX,泛林,芯片·设备/材料
+MDB,MongoDB,应用与端侧·AI软件(相关)
+META,Meta,模型与云·大模型/云
+MP,MP Materials,原材料·铜/稀土(相关)
+MPWR,芯源系统,服务器与数据中心·电力/散热(相关)
+MRVL,迈威尔,芯片·定制ASIC
+MSFT,微软,模型与云·大模型/云
+MU,美光,芯片·存储
+NBIS,Nebius,算力租赁·GPU/算力云
+NEE,NextEra,能源·发电(相关)
+NNE,Nano Nuclear,能源·核能/铀(相关)
+NOK,诺基亚,网络与光·交换/连接(相关)
+NOW,ServiceNow,应用与端侧·AI软件(相关)
+NRG,NRG Energy,能源·发电(相关)
+NVDA,英伟达,芯片·GPU/加速器
+OKLO,Oklo,能源·核能/铀(相关)
+ONTO,Onto Innovation,芯片·设备/材料(相关)
+ORCL,甲骨文,模型与云·大模型/云
+PLTR,Palantir,应用与端侧·AI软件
+POET,POET Technologies,网络与光·光模块(相关)
+PWR,Quanta Services,能源·电网设备(相关)
+QCOM,高通,应用与端侧·端侧/机器人(相关)
+SCCO,南方铜业,原材料·铜/稀土(相关)
+SKHY,SK海力士,芯片·存储
+SMCI,超微电脑,服务器与数据中心·AI服务器
+SMR,NuScale,能源·核能/铀(相关)
+SNDK,闪迪,芯片·存储
+SNOW,Snowflake,应用与端侧·AI软件(相关)
+SNPS,新思科技,芯片·设计软件(相关)
+SOUN,SoundHound,应用与端侧·AI软件(相关)
+SPCX,SpaceX,模型与云·xAI(相关)
+STX,希捷,芯片·存储
+TEM,Tempus,应用与端侧·AI软件(相关)
+TER,泰瑞达,芯片·设备/材料(相关)
+TLN,Talen,能源·发电
+TSLA,特斯拉,应用与端侧·端侧/机器人(相关)
+TSM,台积电,芯片·晶圆代工
+TTMI,TTM Technologies,服务器与数据中心·PCB/覆铜板(相关)
+VNET,世纪互联,服务器与数据中心·数据中心/IDC(相关)
+VRT,维谛,服务器与数据中心·电力/散热
+VST,Vistra,能源·发电
+WDC,西部数据,芯片·存储
+WULF,TeraWulf,算力租赁·GPU/算力云

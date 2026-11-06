@@ -6,7 +6,7 @@ import { CATEGORY_NAMES, WEEKLY_NAMES, detailText, signalName } from './signals'
 type Dir = 'bull' | 'bear';
 interface Reason { signal_id: string; direction: Dir; timeframe: 'D' | 'W'; strength: number; category: string; date: string; detail: Record<string, unknown> }
 interface Item {
-  ticker: string; name: string; tier: string; tags: string[]; score: number; direction: Dir; rank: number;
+  ticker: string; name: string; tier: string; tags: string[]; ai: boolean; score: number; direction: Dir; rank: number;
   resonance: string[]; categories: string[]; reasons: Reason[];
   detail: { base: number; weekly_bonus: number; opposite_base: number; divergent: boolean; weekly_state: string };
 }
@@ -38,7 +38,7 @@ export function Today({ onError }: { onError: (e: Error) => void }) {
   const d = new Date(`${data.date}T12:00:00Z`);
   const rows = data.items
     .filter((r) => tab === 0 || (tab === 1 && r.direction === 'bull') || (tab === 2 && r.direction === 'bear') ||
-      (tab === 3 && r.resonance.length > 0) || (tab === 4 && r.tags.some((t) => t.startsWith('AI'))))
+      (tab === 3 && r.resonance.length > 0) || (tab === 4 && r.ai))
     .sort((a, b) => b.score - a.score);
 
   return (
@@ -71,7 +71,7 @@ export function Today({ onError }: { onError: (e: Error) => void }) {
         <span className="c2">触发信号</span>
         <span className="c3">综合分 / 方向</span>
       </div>
-      {rows.length === 0 && <div className="row muted">今天没有达到门槛的机会（扩展池需同向 4 类信号）。</div>}
+      {rows.length === 0 && <div className="row muted">今天没有达到门槛的机会（核心池需同向 3 类信号，扩展池需 4 类）。</div>}
       {rows.map((r) => {
         const names = r.reasons.map((s) => signalName(s.signal_id, s.direction));
         return (
@@ -82,7 +82,7 @@ export function Today({ onError }: { onError: (e: Error) => void }) {
                   {r.ticker}
                   {r.resonance.length > 0 && <span className="hot">共振</span>}
                 </div>
-                <div className="nm">{r.name}</div>
+                <div className="nm">{r.ai && r.tags[0] ? r.tags[0].split('·')[1]?.replace('(相关)', '') : r.name}</div>
               </div>
               <div className="c2">
                 <div className="sig">{names.slice(0, 2).join(' · ')}</div>

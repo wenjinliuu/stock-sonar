@@ -50,6 +50,6 @@
 ## 股票池维护
 
 - 标普 500 / 纳指 100：`.github/workflows/universe.yml` 每季度从 Wikipedia 抓取，有变化自动提交并部署。
-- AI 主题：编辑 `data/universe/ai.csv`（`ticker,name,tags`，多个标签用 `|` 分隔），然后运行 `npm run universe:gen` 并提交（或让 Claude Code 代劳）。
+- AI 主题：`data/universe/ai.csv`，取自期权 / 研报系统的 AI 产业链名单（美股部分）。标签「层·环节」，第一个为主环节，`(相关)` 表示原名单的 edge；多个标签用 `|` 分隔，`#` 开头为注释。改完运行 `npm run universe:gen` 并提交。AI 清单里的股票属核心池（同向 3 类即上榜）。
 - 基准 ETF（SPY、QQQ 等，只做相对强度参照）：`data/universe/benchmark.csv`。
 - 期权池、研报覆盖、App 内手动添加：运行时写入 `ticker_sources`（P2 实现）。

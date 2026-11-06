@@ -282,9 +282,9 @@ flowchart LR
 **待定事项**
 
 - [x] 确定仓库名并创建仓库（stock-sonar）
-- [ ] 整理 AI 主题股票清单（补充标普、纳指以外的 AI 股）
+- [x] 整理 AI 主题股票清单：采用期权 / 研报系统的 AI 产业链名单，美股 99 只（新增 38 只标普、纳指以外），见 `data/universe/ai.csv`
 - [ ] 定义「高分共振」的推送门槛（写进信号规格）
 - [x] 注册 Massive 免费 key（P0 实测 Grouped Daily 可用，见 `docs/data-pipeline.md`）
 - [ ] 注册 Twelve Data 免费 key
-- [ ] 开通 CF Workers Paid 并设账单提醒
-- [ ] 确认期权日报、研报日报数据当前在 CF 里的存放位置和格式
+- [x] 开通 CF Workers Paid（账单提醒待设）
+- [x] 确认期权日报、研报日报数据当前在 CF 里的存放位置和格式，见 `docs/data-sources.md`

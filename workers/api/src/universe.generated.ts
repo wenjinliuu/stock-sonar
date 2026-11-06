@@ -2,7 +2,706 @@
 import type { StaticUniverse } from './universe';
 
 export const STATIC_UNIVERSE: StaticUniverse = {
- "ai": [],
+ "ai": [
+  {
+   "name": "Applied Optoelectronics",
+   "tags": [
+    "网络与光·光模块(相关)"
+   ],
+   "ticker": "AAOI"
+  },
+  {
+   "name": "苹果公司",
+   "tags": [
+    "应用与端侧·端侧/机器人(相关)"
+   ],
+   "ticker": "AAPL"
+  },
+  {
+   "name": "Adobe",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "ADBE"
+  },
+  {
+   "name": "C3.ai",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "AI"
+  },
+  {
+   "name": "Astera Labs",
+   "tags": [
+    "网络与光·交换/连接"
+   ],
+   "ticker": "ALAB"
+  },
+  {
+   "name": "应用材料",
+   "tags": [
+    "芯片·设备/材料"
+   ],
+   "ticker": "AMAT"
+  },
+  {
+   "name": "超威半导体",
+   "tags": [
+    "芯片·GPU/加速器",
+    "芯片·CPU(相关)"
+   ],
+   "ticker": "AMD"
+  },
+  {
+   "name": "安靠",
+   "tags": [
+    "芯片·封装测试",
+    "芯片·设备/材料(相关)"
+   ],
+   "ticker": "AMKR"
+  },
+  {
+   "name": "亚马逊",
+   "tags": [
+    "模型与云·大模型/云"
+   ],
+   "ticker": "AMZN"
+  },
+  {
+   "name": "Arista",
+   "tags": [
+    "网络与光·交换/连接"
+   ],
+   "ticker": "ANET"
+  },
+  {
+   "name": "安费诺",
+   "tags": [
+    "网络与光·交换/连接(相关)"
+   ],
+   "ticker": "APH"
+  },
+  {
+   "name": "Applied Digital",
+   "tags": [
+    "算力租赁·GPU/算力云"
+   ],
+   "ticker": "APLD"
+  },
+  {
+   "name": "AppLovin",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "APP"
+  },
+  {
+   "name": "Arm",
+   "tags": [
+    "芯片·CPU"
+   ],
+   "ticker": "ARM"
+  },
+  {
+   "name": "阿斯麦",
+   "tags": [
+    "芯片·设备/材料"
+   ],
+   "ticker": "ASML"
+  },
+  {
+   "name": "博通",
+   "tags": [
+    "芯片·定制ASIC"
+   ],
+   "ticker": "AVGO"
+  },
+  {
+   "name": "阿里巴巴",
+   "tags": [
+    "模型与云·中概云(相关)"
+   ],
+   "ticker": "BABA"
+  },
+  {
+   "name": "Bloom Energy",
+   "tags": [
+    "能源·燃料电池"
+   ],
+   "ticker": "BE"
+  },
+  {
+   "name": "百度",
+   "tags": [
+    "模型与云·中概云(相关)"
+   ],
+   "ticker": "BIDU"
+  },
+  {
+   "name": "BWX Technologies",
+   "tags": [
+    "能源·核能/铀(相关)"
+   ],
+   "ticker": "BWXT"
+  },
+  {
+   "name": "Cerebras",
+   "tags": [
+    "芯片·GPU/加速器"
+   ],
+   "ticker": "CBRS"
+  },
+  {
+   "name": "Cameco",
+   "tags": [
+    "能源·核能/铀(相关)"
+   ],
+   "ticker": "CCJ"
+  },
+  {
+   "name": "楷登电子",
+   "tags": [
+    "芯片·设计软件(相关)"
+   ],
+   "ticker": "CDNS"
+  },
+  {
+   "name": "Constellation",
+   "tags": [
+    "能源·发电"
+   ],
+   "ticker": "CEG"
+  },
+  {
+   "name": "Ciena",
+   "tags": [
+    "网络与光·光模块(相关)"
+   ],
+   "ticker": "CIEN"
+  },
+  {
+   "name": "Cipher Mining",
+   "tags": [
+    "算力租赁·GPU/算力云"
+   ],
+   "ticker": "CIFR"
+  },
+  {
+   "name": "Celestica",
+   "tags": [
+    "服务器与数据中心·AI服务器(相关)"
+   ],
+   "ticker": "CLS"
+  },
+  {
+   "name": "相干公司",
+   "tags": [
+    "网络与光·光模块"
+   ],
+   "ticker": "COHR"
+  },
+  {
+   "name": "Core Scientific",
+   "tags": [
+    "算力租赁·GPU/算力云"
+   ],
+   "ticker": "CORZ"
+  },
+  {
+   "name": "Credo",
+   "tags": [
+    "网络与光·交换/连接"
+   ],
+   "ticker": "CRDO"
+  },
+  {
+   "name": "Salesforce",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "CRM"
+  },
+  {
+   "name": "CrowdStrike",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "CRWD"
+  },
+  {
+   "name": "CoreWeave",
+   "tags": [
+    "算力租赁·GPU/算力云"
+   ],
+   "ticker": "CRWV"
+  },
+  {
+   "name": "思科",
+   "tags": [
+    "网络与光·交换/连接(相关)"
+   ],
+   "ticker": "CSCO"
+  },
+  {
+   "name": "Datadog",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "DDOG"
+  },
+  {
+   "name": "戴尔",
+   "tags": [
+    "服务器与数据中心·AI服务器(相关)"
+   ],
+   "ticker": "DELL"
+  },
+  {
+   "name": "Digital Realty",
+   "tags": [
+    "服务器与数据中心·数据中心REIT(相关)",
+    "服务器与数据中心·数据中心/IDC(相关)"
+   ],
+   "ticker": "DLR"
+  },
+  {
+   "name": "英特格",
+   "tags": [
+    "芯片·设备/材料(相关)"
+   ],
+   "ticker": "ENTG"
+  },
+  {
+   "name": "Eos Energy",
+   "tags": [
+    "能源·储能(相关)"
+   ],
+   "ticker": "EOSE"
+  },
+  {
+   "name": "Equinix",
+   "tags": [
+    "服务器与数据中心·数据中心REIT(相关)",
+    "服务器与数据中心·数据中心/IDC(相关)"
+   ],
+   "ticker": "EQIX"
+  },
+  {
+   "name": "伊顿",
+   "tags": [
+    "服务器与数据中心·电力/散热"
+   ],
+   "ticker": "ETN"
+  },
+  {
+   "name": "自由港",
+   "tags": [
+    "原材料·铜/稀土(相关)"
+   ],
+   "ticker": "FCX"
+  },
+  {
+   "name": "Fluence",
+   "tags": [
+    "能源·储能(相关)"
+   ],
+   "ticker": "FLNC"
+  },
+  {
+   "name": "Fabrinet",
+   "tags": [
+    "网络与光·光模块(相关)"
+   ],
+   "ticker": "FN"
+  },
+  {
+   "name": "GE Vernova",
+   "tags": [
+    "能源·电网设备"
+   ],
+   "ticker": "GEV"
+  },
+  {
+   "name": "格芯",
+   "tags": [
+    "芯片·晶圆代工(相关)"
+   ],
+   "ticker": "GFS"
+  },
+  {
+   "name": "康宁",
+   "tags": [
+    "网络与光·光模块(相关)"
+   ],
+   "ticker": "GLW"
+  },
+  {
+   "name": "谷歌",
+   "tags": [
+    "模型与云·大模型/云"
+   ],
+   "ticker": "GOOG"
+  },
+  {
+   "name": "谷歌",
+   "tags": [
+    "模型与云·大模型/云"
+   ],
+   "ticker": "GOOGL"
+  },
+  {
+   "name": "慧与",
+   "tags": [
+    "服务器与数据中心·AI服务器(相关)"
+   ],
+   "ticker": "HPE"
+  },
+  {
+   "name": "IBM",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "IBM"
+  },
+  {
+   "name": "英特尔",
+   "tags": [
+    "芯片·CPU(相关)",
+    "芯片·晶圆代工(相关)"
+   ],
+   "ticker": "INTC"
+  },
+  {
+   "name": "IREN",
+   "tags": [
+    "算力租赁·GPU/算力云"
+   ],
+   "ticker": "IREN"
+  },
+  {
+   "name": "科磊",
+   "tags": [
+    "芯片·设备/材料"
+   ],
+   "ticker": "KLAC"
+  },
+  {
+   "name": "Centrus",
+   "tags": [
+    "能源·核能/铀(相关)"
+   ],
+   "ticker": "LEU"
+  },
+  {
+   "name": "Lumentum",
+   "tags": [
+    "网络与光·光模块"
+   ],
+   "ticker": "LITE"
+  },
+  {
+   "name": "泛林",
+   "tags": [
+    "芯片·设备/材料"
+   ],
+   "ticker": "LRCX"
+  },
+  {
+   "name": "MongoDB",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "MDB"
+  },
+  {
+   "name": "Meta",
+   "tags": [
+    "模型与云·大模型/云"
+   ],
+   "ticker": "META"
+  },
+  {
+   "name": "MP Materials",
+   "tags": [
+    "原材料·铜/稀土(相关)"
+   ],
+   "ticker": "MP"
+  },
+  {
+   "name": "芯源系统",
+   "tags": [
+    "服务器与数据中心·电力/散热(相关)"
+   ],
+   "ticker": "MPWR"
+  },
+  {
+   "name": "迈威尔",
+   "tags": [
+    "芯片·定制ASIC"
+   ],
+   "ticker": "MRVL"
+  },
+  {
+   "name": "微软",
+   "tags": [
+    "模型与云·大模型/云"
+   ],
+   "ticker": "MSFT"
+  },
+  {
+   "name": "美光",
+   "tags": [
+    "芯片·存储"
+   ],
+   "ticker": "MU"
+  },
+  {
+   "name": "Nebius",
+   "tags": [
+    "算力租赁·GPU/算力云"
+   ],
+   "ticker": "NBIS"
+  },
+  {
+   "name": "NextEra",
+   "tags": [
+    "能源·发电(相关)"
+   ],
+   "ticker": "NEE"
+  },
+  {
+   "name": "Nano Nuclear",
+   "tags": [
+    "能源·核能/铀(相关)"
+   ],
+   "ticker": "NNE"
+  },
+  {
+   "name": "诺基亚",
+   "tags": [
+    "网络与光·交换/连接(相关)"
+   ],
+   "ticker": "NOK"
+  },
+  {
+   "name": "ServiceNow",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "NOW"
+  },
+  {
+   "name": "NRG Energy",
+   "tags": [
+    "能源·发电(相关)"
+   ],
+   "ticker": "NRG"
+  },
+  {
+   "name": "英伟达",
+   "tags": [
+    "芯片·GPU/加速器"
+   ],
+   "ticker": "NVDA"
+  },
+  {
+   "name": "Oklo",
+   "tags": [
+    "能源·核能/铀(相关)"
+   ],
+   "ticker": "OKLO"
+  },
+  {
+   "name": "Onto Innovation",
+   "tags": [
+    "芯片·设备/材料(相关)"
+   ],
+   "ticker": "ONTO"
+  },
+  {
+   "name": "甲骨文",
+   "tags": [
+    "模型与云·大模型/云"
+   ],
+   "ticker": "ORCL"
+  },
+  {
+   "name": "Palantir",
+   "tags": [
+    "应用与端侧·AI软件"
+   ],
+   "ticker": "PLTR"
+  },
+  {
+   "name": "POET Technologies",
+   "tags": [
+    "网络与光·光模块(相关)"
+   ],
+   "ticker": "POET"
+  },
+  {
+   "name": "Quanta Services",
+   "tags": [
+    "能源·电网设备(相关)"
+   ],
+   "ticker": "PWR"
+  },
+  {
+   "name": "高通",
+   "tags": [
+    "应用与端侧·端侧/机器人(相关)"
+   ],
+   "ticker": "QCOM"
+  },
+  {
+   "name": "南方铜业",
+   "tags": [
+    "原材料·铜/稀土(相关)"
+   ],
+   "ticker": "SCCO"
+  },
+  {
+   "name": "SK海力士",
+   "tags": [
+    "芯片·存储"
+   ],
+   "ticker": "SKHY"
+  },
+  {
+   "name": "超微电脑",
+   "tags": [
+    "服务器与数据中心·AI服务器"
+   ],
+   "ticker": "SMCI"
+  },
+  {
+   "name": "NuScale",
+   "tags": [
+    "能源·核能/铀(相关)"
+   ],
+   "ticker": "SMR"
+  },
+  {
+   "name": "闪迪",
+   "tags": [
+    "芯片·存储"
+   ],
+   "ticker": "SNDK"
+  },
+  {
+   "name": "Snowflake",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "SNOW"
+  },
+  {
+   "name": "新思科技",
+   "tags": [
+    "芯片·设计软件(相关)"
+   ],
+   "ticker": "SNPS"
+  },
+  {
+   "name": "SoundHound",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "SOUN"
+  },
+  {
+   "name": "SpaceX",
+   "tags": [
+    "模型与云·xAI(相关)"
+   ],
+   "ticker": "SPCX"
+  },
+  {
+   "name": "希捷",
+   "tags": [
+    "芯片·存储"
+   ],
+   "ticker": "STX"
+  },
+  {
+   "name": "Tempus",
+   "tags": [
+    "应用与端侧·AI软件(相关)"
+   ],
+   "ticker": "TEM"
+  },
+  {
+   "name": "泰瑞达",
+   "tags": [
+    "芯片·设备/材料(相关)"
+   ],
+   "ticker": "TER"
+  },
+  {
+   "name": "Talen",
+   "tags": [
+    "能源·发电"
+   ],
+   "ticker": "TLN"
+  },
+  {
+   "name": "特斯拉",
+   "tags": [
+    "应用与端侧·端侧/机器人(相关)"
+   ],
+   "ticker": "TSLA"
+  },
+  {
+   "name": "台积电",
+   "tags": [
+    "芯片·晶圆代工"
+   ],
+   "ticker": "TSM"
+  },
+  {
+   "name": "TTM Technologies",
+   "tags": [
+    "服务器与数据中心·PCB/覆铜板(相关)"
+   ],
+   "ticker": "TTMI"
+  },
+  {
+   "name": "世纪互联",
+   "tags": [
+    "服务器与数据中心·数据中心/IDC(相关)"
+   ],
+   "ticker": "VNET"
+  },
+  {
+   "name": "维谛",
+   "tags": [
+    "服务器与数据中心·电力/散热"
+   ],
+   "ticker": "VRT"
+  },
+  {
+   "name": "Vistra",
+   "tags": [
+    "能源·发电"
+   ],
+   "ticker": "VST"
+  },
+  {
+   "name": "西部数据",
+   "tags": [
+    "芯片·存储"
+   ],
+   "ticker": "WDC"
+  },
+  {
+   "name": "TeraWulf",
+   "tags": [
+    "算力租赁·GPU/算力云"
+   ],
+   "ticker": "WULF"
+  }
+ ],
  "benchmark": [
   {
    "name": "SPDR Dow Jones Industrial Average ETF",
